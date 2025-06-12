@@ -1,0 +1,78 @@
+<div class="container">
+  <h2>Enter Ticket Code</h2>
+  <form (ngSubmit)="getTicketDetails()">
+    <div class="form-group">
+      <label for="ticketCode">Ticket Code:</label>
+      <input
+        type="text"
+        [(ngModel)]="ticketCode"
+        name="ticketCode"
+        class="form-control"
+        id="ticketCode"
+        required
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Get Ticket Details</button>
+  </form>
+
+  <!-- Display error message if any -->
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Display ticket details if found -->
+  <div *ngIf="ticketDetails" class="ticket-info mt-4">
+    <h3>Ticket Details:</h3>
+    <p><strong>Type:</strong> {{ ticketDetails.type }}</p>
+    <p><strong>Number of Tickets:</strong> {{ ticketDetails.numberOfCards }}</p>
+    <p><strong>Discount:</strong> {{ ticketDetails.discount }}%</p>
+    <p><strong>Total Price:</strong> ${{ getTotalPrice() | number: '1.2-2' }}</p>
+
+    <h3>User Details:</h3>
+    <p><strong>Name:</strong> {{ userDetails?.name }}</p>
+    <p><strong>Surname:</strong> {{ userDetails?.surname }}</p>
+    <p><strong>Email:</strong> {{ userDetails?.email }}</p>
+    <p><strong>Company:</strong> {{ userDetails?.company }}</p>
+    <p><strong>City:</strong> {{ userDetails?.city }}</p>
+    <p><strong>Country:</strong> {{ userDetails?.country }}</p>
+
+    <h3>Promo Used:</h3>
+    <p><strong>Promo Used:</strong> 
+      <span *ngIf="ticketDetails.promoused">
+        {{ ticketDetails.promoused }} 
+        <span [ngClass]="{'text-success': promoUsedValid, 'text-danger': promoUsedValid === false}">
+          ({{ promoUsedValid === null ? 'No promo used' : (promoUsedValid ? 'Valid' : 'Invalid') }})
+        </span>
+      </span>
+      <span *ngIf="!ticketDetails.promoused">No promo used</span>
+    </p>
+
+    <div class="d-flex justify-content-center mt-4">
+      <button type="button" class="btn btn-warning btn-lg" (click)="showChangeTicketForm()">
+        Change Ticket
+      </button>
+      <button type="button" class="btn btn-danger btn-lg ms-3" (click)="onDeactivateTicket()">
+        Deactivate Ticket
+      </button>
+    </div>
+  </div>
+
+  <!-- Show the form to change ticket details -->
+  <div *ngIf="isChangeTicketVisible" class="mt-4">
+    <h4>Change Ticket</h4>
+    <form (ngSubmit)="onChangeTicket()">
+      <div class="form-group">
+        <label for="newNumberOfTickets">New Number of Tickets:</label>
+        <input
+          type="number"
+          [(ngModel)]="newNumberOfTickets"
+          name="newNumberOfTickets"
+          class="form-control"
+          id="newNumberOfTickets"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-success">Update Ticket</button>
+    </form>
+  </div>
+</div>

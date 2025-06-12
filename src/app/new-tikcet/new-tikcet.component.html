@@ -1,0 +1,293 @@
+<div class="container-fluid">
+    <section class="vh-100">
+        <div class="container-fluid h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-lg-12 col-xl-11 mb-5">
+                    <div class="card text-black" style="border-radius: 25px;">
+                        <div class="card-body p-0">
+                            <div class="row">
+                                <div class="col-md-3 d-flex justify-content-center align-items-center">
+                                    <div class="concert-info">
+                                        <h4>Concert Information</h4>
+                                        <p><strong>Artist:</strong> Eros Ramazzotti</p>
+                                        <p><strong>Tour:</strong> World Tour</p>
+                                        <p><strong>Location:</strong> Belgrade, Serbia</p>
+                                        <p><strong>Date:</strong> March 15, 2025</p>
+                                        <p><strong>Venue:</strong> Kombank Arena</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-center">
+                                    <img src="assets/eros-battito-concerto-milano.jpg"
+                                        style="width:100%;border-radius: 25px;" class="img-fluid" alt="Sample image" />
+                                </div>
+                                <div class="col-md-3 d-flex justify-content-center align-items-center">
+                                    <div class="concert-info">
+                                        <h4></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-md-12 col-lg-12 col-xl-12 order-2 order-lg-1">
+                                    <p class="text-center h1 fw-bold mb-2 mx-md-4 mt-2">New Ticket</p>
+                                    <div class="mx-1">
+                                        <!-- Zone Selection -->
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="row">
+                                                    <div class="col-3">
+                                                        <div class="d-flex flex-row align-items-center mb-4">
+                                                            <i class="fa fa-plus-circle fa-lg me-3 fa-fw"></i>
+                                                            <div class="mb-0">
+                                                                <select class="form-control" [(ngModel)]="selectedZone"
+                                                                    (ngModelChange)="updateZoneDetails()"
+                                                                    #zoneField="ngModel" required
+                                                                    [ngClass]="{'is-invalid': zoneField.invalid && (zoneField.touched || zoneField.dirty)}">
+                                                                    <option value="" disabled>Select a zone</option>
+                                                                    <option *ngFor="let zoneType of zoneTypes"
+                                                                        [value]="zoneType">{{ zoneType }}</option>
+                                                                </select>
+                                                                <div *ngIf="zoneField.invalid && (zoneField.touched || zoneField.dirty)"
+                                                                    class="text-danger">
+                                                                    Zone is required.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="mb-0">
+                                                            <small *ngIf="zoneDetails.length > 0">
+                                                                <span>{{ zoneDetails[0].numberofchairs }} Tickets
+                                                                    Available | Price: ${{ zoneDetails[0].price
+                                                                    }}</span>
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-4">
+                                            <div class="col-2">
+                                                <div class="d-flex flex-row align-items-center mb-4">
+                                                    <i class="fa fa-ticket fa-lg me-3 fa-fw"></i>
+                                                    <div class="mb-0">
+                                                        <small class="text-muted me-2">Enter how many
+                                                            tickets:</small>
+                                                        <input type="number" min="1"
+                                                            [max]="zoneDetails[0]?.numberofchairs || 0"
+                                                            placeholder="Enter how many tickets" class="form-control"
+                                                            [(ngModel)]="ticketCount"
+                                                            (ngModelChange)="onTicketCountChange()" id="ticketCount"
+                                                            #ticketCountField="ngModel" required
+                                                            [ngClass]="{'is-invalid': ticketCountField.invalid && (ticketCountField.touched || ticketCountField.dirty)}" />
+                                                        <div *ngIf="ticketCountField.invalid && (ticketCountField.touched || ticketCountField.dirty)"
+                                                            class="text-danger">
+                                                            Please enter a valid number of tickets.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                        <div class="d-flex flex-row align-items-center mb-4">
+                                                            <i class="fa fa-user fa-lg me-3 fa-fw"></i>
+                                                            <div class="mb-0">
+                                                                <input type="text" placeholder="Enter Name"
+                                                                    class="form-control" [(ngModel)]="name"
+                                                                    #nameField="ngModel" required
+                                                                    [ngClass]="{'is-invalid': nameField.invalid && (nameField.touched || nameField.dirty)}" />
+                                                                <div *ngIf="nameField.invalid && (nameField.touched || nameField.dirty)"
+                                                                    class="text-danger">
+                                                                    Name is required.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <div class="d-flex flex-row align-items-center mb-4">
+                                                            <i class="fa fa-user fa-lg me-3 fa-fw"></i>
+                                                            <div class="mb-0">
+                                                                <input type="text" placeholder="Enter Surname"
+                                                                    class="form-control" [(ngModel)]="surname"
+                                                                    #surnameField="ngModel" required
+                                                                    [ngClass]="{'is-invalid': surnameField.invalid && (surnameField.touched || surnameField.dirty)}" />
+                                                                <div *ngIf="surnameField.invalid && (surnameField.touched || surnameField.dirty)"
+                                                                    class="text-danger">
+                                                                    Surname is required.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <div class="d-flex flex-row align-items-center mb-4">
+                                                            <i class="fa fa-building fa-lg me-3 fa-fw"></i>
+                                                            <div class="mb-0">
+                                                                <input type="text" placeholder="Enter Company"
+                                                                    class="form-control" [(ngModel)]="company"
+                                                                    #companyField="ngModel" required
+                                                                    [ngClass]="{'is-invalid': companyField.invalid && (companyField.touched || companyField.dirty)}" />
+                                                                <div *ngIf="companyField.invalid && (companyField.touched || companyField.dirty)"
+                                                                    class="text-danger">
+                                                                    Company is required.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <div class="d-flex flex-row align-items-center mb-4">
+                                                            <i class="fa fa-location-dot fa-lg me-3 fa-fw"></i>
+                                                            <div class="mb-0">
+                                                                <input type="text" placeholder="Enter Address"
+                                                                    class="form-control" [(ngModel)]="address"
+                                                                    #addressField="ngModel" required
+                                                                    [ngClass]="{'is-invalid': addressField.invalid && (addressField.touched || addressField.dirty)}" />
+                                                                <div *ngIf="addressField.invalid && (addressField.touched || addressField.dirty)"
+                                                                    class="text-danger">
+                                                                    Address is required.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <div class="d-flex flex-row align-items-center mb-4">
+                                                            <i class="fa fa-location-dot fa-lg me-3 fa-fw"></i>
+                                                            <div class="mb-0">
+                                                                <input type="text" placeholder="Enter Zip Code"
+                                                                    class="form-control" [(ngModel)]="zipCode"
+                                                                    #zipCodeField="ngModel" required
+                                                                    [ngClass]="{'is-invalid': zipCodeField.invalid && (zipCodeField.touched || zipCodeField.dirty)}" />
+                                                                <div *ngIf="zipCodeField.invalid && (zipCodeField.touched || zipCodeField.dirty)"
+                                                                    class="text-danger">
+                                                                    Zip Code is required.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <div class="d-flex flex-row align-items-center mb-4">
+                                                            <i class="fa fa-location-dot fa-lg me-3 fa-fw"></i>
+                                                            <div class="mb-0">
+                                                                <input type="text" placeholder="Enter City"
+                                                                    class="form-control" [(ngModel)]="city"
+                                                                    #cityField="ngModel" required
+                                                                    [ngClass]="{'is-invalid': cityField.invalid && (cityField.touched || cityField.dirty)}" />
+                                                                <div *ngIf="cityField.invalid && (cityField.touched || cityField.dirty)"
+                                                                    class="text-danger">
+                                                                    City is required.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                        <div class="d-flex flex-row align-items-center mb-4">
+                                                            <i class="fa fa-globe fa-lg me-3 fa-fw"></i>
+                                                            <div class="mb-0">
+                                                                <input type="text" placeholder="Enter Country"
+                                                                    class="form-control" [(ngModel)]="country"
+                                                                    #countryField="ngModel" required
+                                                                    [ngClass]="{'is-invalid': countryField.invalid && (countryField.touched || countryField.dirty)}" />
+                                                                <div *ngIf="countryField.invalid && (countryField.touched || countryField.dirty)"
+                                                                    class="text-danger">
+                                                                    Country is required.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <div class="d-flex flex-row align-items-center mb-4">
+                                                            <i class="fa fa-envelope fa-lg me-3 fa-fw"></i>
+                                                            <div class="mb-0">
+                                                                <input type="email" placeholder="Enter Email"
+                                                                    class="form-control" [(ngModel)]="email"
+                                                                    #emailField="ngModel" required
+                                                                    [ngClass]="{'is-invalid': emailField.invalid && (emailField.touched || emailField.dirty)}" />
+                                                                <div *ngIf="emailField.invalid && (emailField.touched || emailField.dirty)"
+                                                                    class="text-danger">
+                                                                    Email is required.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <div class="d-flex flex-row align-items-center mb-4">
+                                                            <i class="fa fa-envelope fa-lg me-3 fa-fw"></i>
+                                                            <div class="mb-0">
+                                                                <input type="email" placeholder="Confirm Email"
+                                                                    class="form-control" [(ngModel)]="confirmEmail"
+                                                                    #confirmEmailField="ngModel" required
+                                                                    [ngClass]="{'is-invalid': confirmEmailField.invalid && (confirmEmailField.touched || confirmEmailField.dirty)}" />
+                                                                <div *ngIf="confirmEmailField.invalid && (confirmEmailField.touched || confirmEmailField.dirty)"
+                                                                    class="text-danger">
+                                                                    Confirm Email is required.
+                                                                </div>
+                                                                <div *ngIf="confirmEmailField.touched && confirmEmail !== email"
+                                                                    class="text-danger">
+                                                                    Emails do not match.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <div class="d-flex flex-row align-items-center mb-4">
+                                                            <i class="fa fa-code fa-lg me-3 fa-fw"></i>
+                                                            <div class="mb-0">
+                                                                <input type="text" placeholder="Enter Promo"
+                                                                    class="form-control" [(ngModel)]="promoCodeUsed"
+                                                                    [ngClass]="{'is-valid': promoCodeStatus === 'valid', 'is-invalid': promoCodeStatus === 'invalid'}" />
+                                                            </div>
+                                                            <button type="button" class="btn btn-secondary ms-2"
+                                                                (click)="checkPromoCode()">Check</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <div class="d-flex flex-row align-items-center mb-4">
+                                                            <i class="fa fa-percent fa-lg me-3 fa-fw"></i>
+                                                            <div class="mb-0">
+                                                                <input type="text" placeholder="Discount"
+                                                                    class="form-control" readonly="readonly"
+                                                                    id="discount" [value]="discount" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <div class="d-flex flex-row align-items-center mb-4">
+                                                            <i class="fa fa-dollar-sign fa-lg me-3 fa-fw"></i>
+                                                            <div class="mb-0">
+                                                                <input type="text" placeholder="Price"
+                                                                    class="form-control" readonly="readonly" id="price"
+                                                                    [value]="'$' + price.toFixed(2)" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                            <button type="button" class="btn btn-primary btn-lg" (click)="bookTicket()"
+                                                [disabled]="!isFormValid()">
+                                                Book Ticket
+                                            </button>
+
+                                        </div>
+                                        <div *ngIf="bookingMessage" class="alert text-center"
+                                            [ngClass]="{'alert-danger': !isFormValid, 'alert-success': isFormValid}">
+                                            {{ bookingMessage }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
