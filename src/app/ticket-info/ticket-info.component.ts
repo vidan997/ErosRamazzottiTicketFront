@@ -92,12 +92,14 @@ export class TicketInfoComponent {
 
   onChangeTicket() {
     if (this.newNumberOfTickets > 0) {
+      this.ticketDetails.price = this.ticketDetails.price/this.ticketDetails.numberOfCards * this.newNumberOfTickets
       this.ticketDetails.numberOfCards = this.newNumberOfTickets;
 
       this.updateDiscount();
 
       this.ticketService.updateReservation(this.ticketDetails).subscribe(
-        () => {
+        (data) => {
+          this.ticketDetails = data[0]; 
           this.isChangeTicketVisible = false;
         },
         () => {
@@ -131,8 +133,7 @@ export class TicketInfoComponent {
   getTotalPrice(): number {
     if (this.ticketDetails) {
       const totalPrice =  this.ticketDetails.price;
-      const discount = this.ticketDetails.discount / 100;
-      return totalPrice - totalPrice * discount;
+      return totalPrice ;
     }
     return 0;
   }
